@@ -6,12 +6,3 @@ logging:
     org:
       springframework:
         security: trace
-
-spring:
-  datasource:
-    url: jdbc:mysql://localhost:3306/demo
-    username: root
-    password: Xy&278721524
-  jpa:
-    hibernate:
-      ddl-auto: create-drop
