@@ -92,11 +92,10 @@ public class AuthorizationServerConfig {
 		 * endpoints and employ any additional protections as needed, which is
 		 * outside the scope of this sample.
 		 */
-		DeviceClientAuthenticationConverter deviceClientAuthenticationConverter =
-				new DeviceClientAuthenticationConverter(
-						authorizationServerSettings.getDeviceAuthorizationEndpoint());
-		DeviceClientAuthenticationProvider deviceClientAuthenticationProvider =
-				new DeviceClientAuthenticationProvider(registeredClientRepository);
+		DeviceClientAuthenticationConverter deviceClientAuthenticationConverter = new DeviceClientAuthenticationConverter(
+				authorizationServerSettings.getDeviceAuthorizationEndpoint());
+		DeviceClientAuthenticationProvider deviceClientAuthenticationProvider = new DeviceClientAuthenticationProvider(
+				registeredClientRepository);
 
 		// @formatter:off
 		http.getConfigurer(OAuth2AuthorizationServerConfigurer.class)
@@ -128,57 +127,6 @@ public class AuthorizationServerConfig {
 				oauth2ResourceServer.jwt(Customizer.withDefaults()));
 		// @formatter:on
 		return http.build();
-	}
-
-	// @formatter:off
-	@Bean
-	public RegisteredClientRepository registeredClientRepository(JdbcTemplate jdbcTemplate) {
-		RegisteredClient registeredClient = RegisteredClient.withId(UUID.randomUUID().toString())
-				.clientId("messaging-client")
-				.clientSecret("{noop}secret")
-				.clientAuthenticationMethod(ClientAuthenticationMethod.CLIENT_SECRET_BASIC)
-				.authorizationGrantType(AuthorizationGrantType.AUTHORIZATION_CODE)
-				.authorizationGrantType(AuthorizationGrantType.REFRESH_TOKEN)
-				.authorizationGrantType(AuthorizationGrantType.CLIENT_CREDENTIALS)
-				.redirectUri("http://127.0.0.1:8080/login/oauth2/code/messaging-client-oidc")
-				.redirectUri("http://127.0.0.1:8080/authorized")
-				.postLogoutRedirectUri("http://127.0.0.1:8080/logged-out")
-				.scope(OidcScopes.OPENID)
-				.scope(OidcScopes.PROFILE)
-				.scope("message.read")
-				.scope("message.write")
-				.clientSettings(ClientSettings.builder().requireAuthorizationConsent(true).build())
-				.build();
-
-		RegisteredClient deviceClient = RegisteredClient.withId(UUID.randomUUID().toString())
-				.clientId("device-messaging-client")
-				.clientAuthenticationMethod(ClientAuthenticationMethod.NONE)
-				.authorizationGrantType(AuthorizationGrantType.DEVICE_CODE)
-				.authorizationGrantType(AuthorizationGrantType.REFRESH_TOKEN)
-				.scope("message.read")
-				.scope("message.write")
-				.build();
-
-		// Save registered client's in db as if in-memory
-		JdbcRegisteredClientRepository registeredClientRepository = new JdbcRegisteredClientRepository(jdbcTemplate);
-		registeredClientRepository.save(registeredClient);
-		registeredClientRepository.save(deviceClient);
-
-		return registeredClientRepository;
-	}
-	// @formatter:on
-
-	@Bean
-	public OAuth2AuthorizationService authorizationService(JdbcTemplate jdbcTemplate,
-			RegisteredClientRepository registeredClientRepository) {
-		return new JdbcOAuth2AuthorizationService(jdbcTemplate, registeredClientRepository);
-	}
-
-	@Bean
-	public OAuth2AuthorizationConsentService authorizationConsentService(JdbcTemplate jdbcTemplate,
-			RegisteredClientRepository registeredClientRepository) {
-		// Will be used by the ConsentController
-		return new JdbcOAuth2AuthorizationConsentService(jdbcTemplate, registeredClientRepository);
 	}
 
 	@Bean
