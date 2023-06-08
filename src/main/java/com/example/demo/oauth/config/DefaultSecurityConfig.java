@@ -13,9 +13,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.example.demo.config;
+package com.example.demo.oauth.config;
 
-import com.example.demo.federation.FederatedIdentityAuthenticationSuccessHandler;
+import com.example.demo.oauth.federation.FederatedIdentityAuthenticationSuccessHandler;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

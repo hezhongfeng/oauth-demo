@@ -13,21 +13,35 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.example.demo.web;
+package com.example.demo.oauth.web;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 /**
  * @author Steve Riesenberg
  * @since 1.1
  */
 @Controller
-public class LoginController {
+public class DeviceController {
 
-	@GetMapping("/login")
-	public String login() {
-		return "login";
+	@GetMapping("/activate")
+	public String activate(@RequestParam(value = "user_code", required = false) String userCode) {
+		if (userCode != null) {
+			return "redirect:/oauth2/device_verification?user_code=" + userCode;
+		}
+		return "device-activate";
+	}
+
+	@GetMapping("/activated")
+	public String activated() {
+		return "device-activated";
+	}
+
+	@GetMapping(value = "/", params = "success")
+	public String success() {
+		return "device-activated";
 	}
 
 }

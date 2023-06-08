@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.example.demo.config;
+package com.example.demo.oauth.config;
 
 import java.util.UUID;
 
@@ -21,11 +21,10 @@ import com.nimbusds.jose.jwk.JWKSet;
 import com.nimbusds.jose.jwk.RSAKey;
 import com.nimbusds.jose.jwk.source.JWKSource;
 import com.nimbusds.jose.proc.SecurityContext;
-import com.example.demo.authentication.DeviceClientAuthenticationProvider;
-import com.example.demo.federation.FederatedIdentityIdTokenCustomizer;
-import com.example.demo.jose.Jwks;
-import com.example.demo.web.authentication.DeviceClientAuthenticationConverter;
-
+import com.example.demo.oauth.authentication.DeviceClientAuthenticationProvider;
+import com.example.demo.oauth.federation.FederatedIdentityIdTokenCustomizer;
+import com.example.demo.oauth.jose.Jwks;
+import com.example.demo.oauth.web.authentication.DeviceClientAuthenticationConverter;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

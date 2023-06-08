@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.example.demo.web;
+package com.example.demo.oauth.web;
 
 import java.security.Principal;
 import java.util.Collections;

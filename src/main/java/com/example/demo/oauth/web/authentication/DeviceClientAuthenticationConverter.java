@@ -13,11 +13,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package com.example.demo.web.authentication;
+package com.example.demo.oauth.web.authentication;
 
 import jakarta.servlet.http.HttpServletRequest;
 
-import com.example.demo.authentication.DeviceClientAuthenticationToken;
+import com.example.demo.oauth.authentication.DeviceClientAuthenticationToken;
 
 import org.springframework.http.HttpMethod;
 import org.springframework.lang.Nullable;
