@@ -71,6 +71,7 @@ public final class FederatedIdentityIdTokenCustomizer implements OAuth2TokenCust
 
 				// Add all other claims directly to id_token
 				existingClaims.putAll(thirdPartyClaims);
+				existingClaims.put("myname","hezf");
 			});
 		}
 	}
