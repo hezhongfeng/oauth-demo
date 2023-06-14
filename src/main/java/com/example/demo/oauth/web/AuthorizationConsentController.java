@@ -59,8 +59,8 @@ public class AuthorizationConsentController {
 		Set<String> scopesToApprove = new HashSet<>();
 		Set<String> previouslyApprovedScopes = new HashSet<>();
 		RegisteredClient registeredClient = this.registeredClientRepository.findByClientId(clientId);
-		OAuth2AuthorizationConsent currentAuthorizationConsent =
-				this.authorizationConsentService.findById(registeredClient.getId(), principal.getName());
+		OAuth2AuthorizationConsent currentAuthorizationConsent = this.authorizationConsentService
+				.findById(registeredClient.getId(), principal.getName());
 		Set<String> authorizedScopes;
 		if (currentAuthorizationConsent != null) {
 			authorizedScopes = currentAuthorizationConsent.getScopes();
@@ -79,6 +79,7 @@ public class AuthorizationConsentController {
 		}
 
 		model.addAttribute("clientId", clientId);
+		model.addAttribute("clientName", registeredClient.getClientName());
 		model.addAttribute("state", state);
 		model.addAttribute("scopes", withDescription(scopesToApprove));
 		model.addAttribute("previouslyApprovedScopes", withDescription(previouslyApprovedScopes));
@@ -108,20 +109,16 @@ public class AuthorizationConsentController {
 		static {
 			scopeDescriptions.put(
 					OidcScopes.PROFILE,
-					"This application will be able to read your profile information."
-			);
+					"获取你的基本信息（用户名、昵称等）");
 			scopeDescriptions.put(
 					"message.read",
-					"This application will be able to read your message."
-			);
+					"This application will be able to read your message.");
 			scopeDescriptions.put(
 					"message.write",
-					"This application will be able to add new messages. It will also be able to edit and delete existing messages."
-			);
+					"This application will be able to add new messages. It will also be able to edit and delete existing messages.");
 			scopeDescriptions.put(
 					"other.scope",
-					"This is another scope example of a scope description."
-			);
+					"This is another scope example of a scope description.");
 		}
 
 		public final String scope;
