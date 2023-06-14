@@ -19,10 +19,8 @@ import com.nimbusds.jose.jwk.JWKSet;
 import com.nimbusds.jose.jwk.RSAKey;
 import com.nimbusds.jose.jwk.source.JWKSource;
 import com.nimbusds.jose.proc.SecurityContext;
-import com.example.demo.oauth.authentication.DeviceClientAuthenticationProvider;
 import com.example.demo.oauth.federation.FederatedIdentityIdTokenCustomizer;
 import com.example.demo.oauth.jose.Jwks;
-import com.example.demo.oauth.web.authentication.DeviceClientAuthenticationConverter;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -60,40 +58,10 @@ public class AuthorizationServerConfig {
 
 		OAuth2AuthorizationServerConfiguration.applyDefaultSecurity(http);
 
-		/*
-		 * This sample demonstrates the use of a public client that does not
-		 * store credentials or authenticate with the authorization server.
-		 *
-		 * The following components show how to customize the authorization
-		 * server to allow for device clients to perform requests to the
-		 * OAuth 2.0 Device Authorization Endpoint and Token Endpoint without
-		 * a clientId/clientSecret.
-		 *
-		 * CAUTION: These endpoints will not require any authentication, and can
-		 * be accessed by any client that has a valid clientId.
-		 *
-		 * It is therefore RECOMMENDED to carefully monitor the use of these
-		 * endpoints and employ any additional protections as needed, which is
-		 * outside the scope of this sample.
-		 */
-		DeviceClientAuthenticationConverter deviceClientAuthenticationConverter = new DeviceClientAuthenticationConverter(
-				authorizationServerSettings.getDeviceAuthorizationEndpoint());
-		DeviceClientAuthenticationProvider deviceClientAuthenticationProvider = new DeviceClientAuthenticationProvider(
-				registeredClientRepository);
-
 		// @formatter:off
 		http.getConfigurer(OAuth2AuthorizationServerConfigurer.class)
-			.deviceAuthorizationEndpoint(deviceAuthorizationEndpoint ->
-				deviceAuthorizationEndpoint.verificationUri("/activate")
-			)
-			.deviceVerificationEndpoint(deviceVerificationEndpoint ->
-				deviceVerificationEndpoint.consentPage(CUSTOM_CONSENT_PAGE_URI)
-			)
-			.clientAuthentication(clientAuthentication ->
-				clientAuthentication
-					.authenticationConverter(deviceClientAuthenticationConverter)
-					.authenticationProvider(deviceClientAuthenticationProvider)
-			)
+
+
 			.authorizationEndpoint(authorizationEndpoint ->
 				authorizationEndpoint.consentPage(CUSTOM_CONSENT_PAGE_URI))
 			.oidc(Customizer.withDefaults());	// Enable OpenID Connect 1.0
